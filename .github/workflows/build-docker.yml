@@ -1,0 +1,36 @@
+name: 构建 Docker 镜像
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "Dockerfile"
+      - ".dockerignore"
+      - "docker-compose.yml"
+      - "pyproject.toml"
+      - "src/**"
+      - "scripts/smoke_test_docker.py"
+      - "scripts/smoke_test_exe.py"
+      - ".github/workflows/build-docker.yml"
+  push:
+    branches: [main]
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: 安装冒烟测试依赖
+        run: python -m pip install -e ".[test]"
+      - name: 构建镜像
+        run: docker build --tag archery-mcp:test .
+      - name: 验证 MCP stdio 协议
+        run: python scripts/smoke_test_docker.py archery-mcp:test

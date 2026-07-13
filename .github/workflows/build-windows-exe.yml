@@ -1,0 +1,28 @@
+name: 构建 Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: 构建并验证 EXE
+        shell: pwsh
+        run: .\build-exe.ps1 -Python python
+      - name: 上传 EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: archery-mcp-windows-x64
+          path: dist/archery-mcp.exe
+          if-no-files-found: error

@@ -1,0 +1,41 @@
+[project]
+name = "archery-mcp"
+version = "0.1.0"
+description = "面向 Archery 的安全只读 MCP Server"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "Archery MCP 贡献者" }]
+keywords = ["archery", "mcp", "model-context-protocol", "sql"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Database",
+]
+dependencies = [
+    "httpx>=0.27,<1",
+    "mcp>=1.0,<2",
+    "sqlglot>=26,<29",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9", "pytest-asyncio>=0.24,<1"]
+exe = ["pyinstaller>=6.10,<7"]
+
+[project.scripts]
+archery-mcp = "archery_mcp.server:main"
+
+[build-system]
+requires = ["setuptools>=65"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

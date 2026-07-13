@@ -1,0 +1,17 @@
+.git
+.github
+.idea
+.vscode
+.venv
+build
+dist
+__pycache__
+*.py[cod]
+*.egg-info
+.pytest_cache
+.env
+tests
+scripts
+archery-mcp.spec
+build-exe.ps1
+docker-compose.yml
