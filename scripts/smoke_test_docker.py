@@ -8,6 +8,10 @@ from mcp.client.stdio import stdio_client
 from smoke_test_exe import EXPECTED_TOOLS
 
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
+
 async def verify(image: str) -> None:
     parameters = StdioServerParameters(
         command="docker",

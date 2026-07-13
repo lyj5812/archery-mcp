@@ -20,6 +20,10 @@ EXPECTED_TOOLS = {
 }
 
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
+
 async def verify(executable: str) -> None:
     env = os.environ.copy()
     env.update(
